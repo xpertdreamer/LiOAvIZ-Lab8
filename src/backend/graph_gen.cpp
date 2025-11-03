@@ -137,6 +137,27 @@ void BFS(const int v, const Graph &graph, bool *visited) {
     }
 }
 
+void BFS_list(int v, const Graph &graph, bool *visited) {
+    std::queue<int> q;
+
+    q.push(v);
+    visited[v] = true;
+
+    while (!q.empty()) {
+        const int curr = q.front();
+        q.pop();
+        std::cout << curr << " ";
+
+        for (const int neigh : graph.adj_list[curr]) {
+            if (graph.adj_matrix[curr][neigh] == 1 && !visited[neigh]) {
+                visited[neigh] = true;
+                q.push(neigh);
+            }
+        }
+    }
+}
+
+
 void prep(const Graph &graph, int vertex) {
     const int n = graph.n;
     const auto visited = new bool[graph.n]{false};
@@ -148,6 +169,24 @@ void prep(const Graph &graph, int vertex) {
     for (int v = 0; v < n; v++) {
         if (visited[v] == false) {
             BFS(v, graph, visited);
+        }
+    }
+
+    std::cout << std::endl;
+    delete[] visited;
+}
+
+void prep_list(const Graph &graph, int vertex) {
+    const int n = graph.n;
+    const auto visited = new bool[n]{false};
+
+    if (vertex >= 0 && vertex < n && !visited[vertex]) {
+        BFS_list(vertex, graph, visited);
+    }
+
+    for (int v = 0; v < n; v++) {
+        if (visited[v] == false) {
+            BFS_list(v, graph, visited);
         }
     }
 

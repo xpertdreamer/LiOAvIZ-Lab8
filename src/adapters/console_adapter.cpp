@@ -239,7 +239,7 @@ void GraphConsoleAdapter::cmd_traversal(const std::vector<std::string> &args) co
             std::cout << "Invalid representation." << std::endl;
             return;
         }
-        rep == "--m" ? prep(*graph, v) : (void)0; //prep_list(*graph, v, m);
+        rep == "--m" ? prep(*graph, v) : prep_list(*graph, v);
     } catch (const std::exception& e) {
         std::cout << "Error BFS: " << e.what() << std::endl;
     }

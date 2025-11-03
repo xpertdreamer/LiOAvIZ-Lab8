@@ -45,4 +45,15 @@ extern void BFS(int v, const Graph& graph, bool* visited);
 
 // Preparation algorithm for BFS
 extern void prep(const Graph& graph, int vertex);
+
+/**
+ * Breadth first search algorithm for adjacency list
+ * @param v Start vertex
+ * @param graph Graph
+ * @param visited Array of visited vertices
+ */
+extern void BFS_list(int v, const Graph& graph, bool* visited);
+
+// Preparation algorithm for BFS (list representation)
+extern void prep_list(const Graph& graph, int vertex);
 #endif //GRAPH_GEN_H
