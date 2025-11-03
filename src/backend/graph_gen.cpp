@@ -3,6 +3,7 @@
 #include "../../include/backend/graph_gen.h"
 
 #include <chrono>
+#include <queue>
 #include <stack>
 
 Graph create_graph(const int n, const double edgeProb, const double loopProb, const unsigned int seed) {
@@ -115,4 +116,41 @@ void print_list(const std::vector<std::vector<int> > &list, const char* name) {
         }
         std::cout << std::endl;
     }
+}
+
+void BFS(const int v, const Graph &graph, bool *visited) {
+    std::queue<int> q;
+
+    q.push(v);
+    visited[v] = true;
+
+    while (!q.empty()) {
+        const int curr = q.front();
+        q.pop();
+        std::cout << curr << " ";
+        for (int neigh = 0; neigh < graph.n; neigh++) {
+            if (graph.adj_matrix[curr][neigh] == 1 && !visited[neigh]) {
+                visited[neigh] = true;
+                q.push(neigh);
+            }
+        }
+    }
+}
+
+void prep(const Graph &graph, int vertex) {
+    const int n = graph.n;
+    const auto visited = new bool[graph.n]{false};
+
+    if (vertex >= 0 && vertex < n && !visited[vertex]) {
+        BFS(vertex, graph, visited);
+    }
+
+    for (int v = 0; v < n; v++) {
+        if (visited[v] == false) {
+            BFS(v, graph, visited);
+        }
+    }
+
+    std::cout << std::endl;
+    delete[] visited;
 }

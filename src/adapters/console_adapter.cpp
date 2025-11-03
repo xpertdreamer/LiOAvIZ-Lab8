@@ -145,11 +145,11 @@ void GraphConsoleAdapter::register_graph_commands() {
             "Show history of commands"
     );
 
-    console.register_command("DFS",
+    console.register_command("BFS",
         [this](const std::vector<std::string>& args) { this->cmd_traversal(args); },
-        "DFS traversal",
-        {"vertex", " --representation (m || l)", "--method (r || i)"},
-        "DFS <v> <--representation> <--method>"
+        "BFS traversal",
+        {"vertex", " --representation (m || l)"},
+        "BFS <v> <--method>"
     );
 }
 
@@ -230,37 +230,17 @@ void GraphConsoleAdapter::cmd_traversal(const std::vector<std::string> &args) co
     try {
         const int v = args.empty() ? 0 : std::stoi(args[0]);
         const std::string rep = args.size() > 1 ? args[1] : "--m";
-        const std::string method = args.size() > 2 ? args[2] : "--r";
 
         if (v >= graph->n || v < 0) {
             std::cout << "Invalid number of vertices." << std::endl;
-            return;
-        }
-        if (args[1] == "all") {
-            cmd_print();
-            std::cout << "===Recursive operations===" << std::endl;
-            std::cout << "Matrix traversal:" << std::endl;
-            prep(*graph, v, true);
-            std::cout << "List traversal:" << std::endl;
-            prep_list(*graph, v, true);
-            std::cout << "===Iterative operations===" << std::endl;
-            std::cout << "Matrix traversal:" << std::endl;
-            prep(*graph, v, false);
-            std::cout << "List traversal:" << std::endl;
-            prep_list(*graph, v, false);
             return;
         }
         if (rep != "--l" && rep != "--m") {
             std::cout << "Invalid representation." << std::endl;
             return;
         }
-        if (method != "--r"  && method != "--i") {
-            std::cout << "Invalid method." << std::endl;
-            return;
-        }
-        const bool m = method == "--r";
-        rep == "--m" ? prep(*graph, v, m) : prep_list(*graph, v, m);
+        rep == "--m" ? prep(*graph, v) : (void)0; //prep_list(*graph, v, m);
     } catch (const std::exception& e) {
-        std::cout << "Error DFS: " << e.what() << std::endl;
+        std::cout << "Error BFS: " << e.what() << std::endl;
     }
 }

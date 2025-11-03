@@ -34,4 +34,15 @@ extern void delete_graph(Graph& graph, int n);
 
 // Display adj list
 extern void print_list(const std::vector<std::vector<int>> &list, const char *name);
+
+/**
+ * Breadth first search algorithm
+ * @param v Start vertex
+ * @param graph Graph
+ * @param visited Array of visited vertices
+ */
+extern void BFS(int v, const Graph& graph, bool* visited);
+
+// Preparation algorithm for BFS
+extern void prep(const Graph& graph, int vertex);
 #endif //GRAPH_GEN_H
