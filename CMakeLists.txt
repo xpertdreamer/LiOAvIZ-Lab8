@@ -22,13 +22,17 @@ option(BUILD_TESTS "Build tests" ON)
 include(../LiOAvIZ-Lab7/cmake/compiler_options.cmake)
 
 add_subdirectory(src)
+add_subdirectory(queue)
 
 add_executable(LiOAvIZ_Lab8
         src/main.cpp
         include/backend/graph_gen.h
 )
 
-target_link_libraries(LiOAvIZ_Lab8 PRIVATE lab8_lib)
+target_link_libraries(LiOAvIZ_Lab8 PRIVATE
+        lab8_lib
+        Queue
+)
 
 target_include_directories(LiOAvIZ_Lab8 PRIVATE ${CMAKE_SOURCE_DIR}/include)
 

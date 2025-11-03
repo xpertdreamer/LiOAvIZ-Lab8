@@ -4,7 +4,7 @@
 
 #include <chrono>
 #include <queue>
-#include <stack>
+#include "../queue/queue.h"
 
 Graph create_graph(const int n, const double edgeProb, const double loopProb, const unsigned int seed) {
     Graph graph;
@@ -137,6 +137,26 @@ void BFS(const int v, const Graph &graph, bool *visited) {
     }
 }
 
+
+void BFS_on_own_queue(int v, const Graph &graph, bool *visited) {
+    Queue<int> q;
+
+    q.push(v);
+    visited[v] = true;
+
+    while (!q.is_empty()) {
+        const int curr = q.peek_head();
+        q.pop();
+        std::cout << curr << " ";
+        for (int neigh = 0; neigh < graph.n; neigh++) {
+            if (graph.adj_matrix[curr][neigh] == 1 && !visited[neigh]) {
+                visited[neigh] = true;
+                q.push(neigh);
+            }
+        }
+    }
+}
+
 void BFS_list(int v, const Graph &graph, bool *visited) {
     std::queue<int> q;
 
@@ -157,7 +177,6 @@ void BFS_list(int v, const Graph &graph, bool *visited) {
     }
 }
 
-
 void prep(const Graph &graph, int vertex) {
     const int n = graph.n;
     const auto visited = new bool[graph.n]{false};
@@ -175,6 +194,25 @@ void prep(const Graph &graph, int vertex) {
     std::cout << std::endl;
     delete[] visited;
 }
+
+void prep_on_own_queue(const Graph &graph, int vertex) {
+    const int n = graph.n;
+    const auto visited = new bool[graph.n]{false};
+
+    if (vertex >= 0 && vertex < n && !visited[vertex]) {
+        BFS_on_own_queue(vertex, graph, visited);
+    }
+
+    for (int v = 0; v < n; v++) {
+        if (visited[v] == false) {
+            BFS_on_own_queue(v, graph, visited);
+        }
+    }
+
+    std::cout << std::endl;
+    delete[] visited;
+}
+
 
 void prep_list(const Graph &graph, int vertex) {
     const int n = graph.n;

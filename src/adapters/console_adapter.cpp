@@ -249,6 +249,7 @@ void GraphConsoleAdapter::cmd_traversal(const std::vector<std::string> &args) co
     try {
         const int v = args.empty() ? 0 : std::stoi(args[0]);
         const std::string rep = args.size() > 1 ? args[1] : "--m";
+        const std::string queue = args.size() > 2 ? args[2] : "--std";
 
         if (v >= graph->n || v < 0) {
             std::cout << "Invalid number of vertices." << std::endl;
@@ -258,7 +259,11 @@ void GraphConsoleAdapter::cmd_traversal(const std::vector<std::string> &args) co
             std::cout << "Invalid representation." << std::endl;
             return;
         }
-        rep == "--m" ? prep(*graph, v) : prep_list(*graph, v);
+        if (queue != "--std" && queue != "--own") {
+            std::cout << "Invalid queue." << std::endl;
+            return;
+        }
+        rep == "--m" ? (queue == "--std" ? prep(*graph, v) : prep_on_own_queue(*graph, v)) : prep_list(*graph, v);
     } catch (const std::exception& e) {
         std::cout << "Error BFS: " << e.what() << std::endl;
     }
