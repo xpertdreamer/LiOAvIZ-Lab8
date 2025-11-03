@@ -77,6 +77,21 @@ void GraphConsoleAdapter::cleanup() {
     graphs_created = false;
 }
 
+void GraphConsoleAdapter::cmd_smile() {
+    std::cout << R"(
+     /\     /\
+    {  `---'  }
+    {  O   O  }
+    ~~>  V  <~~
+     \  \|/  /
+      `-----'__
+      /     \  `^\_
+     {       }\ |\_\_   W
+     |  \_/  |/ /  \_\_( )
+      \__/  /(_E     \__/
+        (  /
+         MM)" << std::endl;
+}
 
 std::string GraphConsoleAdapter::find_config_file(const std::string &filename, const std::vector<std::string> &search_paths) {
     for (const auto& path : search_paths) {
@@ -151,6 +166,10 @@ void GraphConsoleAdapter::register_graph_commands() {
         {"vertex", " --representation (m || l)"},
         "BFS <v> <--method>"
     );
+
+    console.register_command("smile",
+        [this](const std::vector<std::string>& args) { cmd_smile(); },
+        "SMILE!!!!!");
 }
 
 void GraphConsoleAdapter::cmd_create(const std::vector<std::string>& args) {
