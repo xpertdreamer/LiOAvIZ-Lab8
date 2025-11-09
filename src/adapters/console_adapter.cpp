@@ -163,13 +163,18 @@ void GraphConsoleAdapter::register_graph_commands() {
     console.register_command("BFS",
         [this](const std::vector<std::string>& args) { this->cmd_traversal(args); },
         "BFS traversal",
-        {"vertex", " --representation (m || l)"},
-        "BFS <v> <--method>"
+        {"vertex", " --representation (m || l)", "--queue type (std || own)"}
     );
 
     console.register_command("smile",
         [this](const std::vector<std::string>& args) { cmd_smile(); },
-        "SMILE!!!!!");
+        "SMILE!!!!!"
+    );
+
+    console.register_command("compare",
+        [this](const std::vector<std::string>& args) { this->cmd_compare(args); },
+        "Compare BFS implementations"
+    );
 }
 
 void GraphConsoleAdapter::cmd_create(const std::vector<std::string>& args) {
@@ -239,6 +244,45 @@ void GraphConsoleAdapter::cmd_help(const std::vector<std::string>& args) {
 void GraphConsoleAdapter::cmd_history() {
     console.show_history();
 }
+
+void GraphConsoleAdapter::cmd_compare(const std::vector<std::string> &args) const {
+    if (!graphs_created) {
+        std::cout << "No graphs created. Use 'create' command first." << std::endl;
+        return;
+    }
+
+    try {
+        const int v = args.empty() ? 0 : std::stoi(args[0]);
+        if (v >= graph->n || v < 0) {
+            std::cout << "Invalid number of vertices." << std::endl;
+            return;
+        }
+
+        std::cout << "===Matrix BFS on std::queue===" << std::endl;
+        auto timeMicro = prep(*graph, v);
+        double timeSec = static_cast<double>(timeMicro) / 1000000.0;
+        std::cout << "Micro time: " << timeMicro << " ms" << std::endl;
+        std::cout << "Sec time: " << timeSec << " s" << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "===List BFS on std::queue===" << std::endl;
+        timeMicro = prep_list(*graph, v);
+        timeSec = static_cast<double>(timeMicro) / 1000000.0;
+        std::cout << "Micro time: " << timeMicro << " ms" << std::endl;
+        std::cout << "Sec time: " << timeSec << " s" << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "===Matrix BFS on own queue===" << std::endl;
+        timeMicro = prep_on_own_queue(*graph, v);
+        timeSec = static_cast<double>(timeMicro) / 1000000.0;
+        std::cout << "Micro time: " << timeMicro << " ms" << std::endl;
+        std::cout << "Sec time: " << timeSec << " s" << std::endl;
+        std::cout << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Error BFS: " << e.what() << std::endl;
+    }
+}
+
 
 void GraphConsoleAdapter::cmd_traversal(const std::vector<std::string> &args) const {
     if (!graphs_created) {

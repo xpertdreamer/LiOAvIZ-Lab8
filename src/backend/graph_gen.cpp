@@ -177,10 +177,11 @@ void BFS_list(int v, const Graph &graph, bool *visited) {
     }
 }
 
-void prep(const Graph &graph, int vertex) {
+long long prep(const Graph &graph, const int vertex) {
     const int n = graph.n;
     const auto visited = new bool[graph.n]{false};
 
+    const auto start = std::chrono::high_resolution_clock::now();
     if (vertex >= 0 && vertex < n && !visited[vertex]) {
         BFS(vertex, graph, visited);
     }
@@ -190,15 +191,19 @@ void prep(const Graph &graph, int vertex) {
             BFS(v, graph, visited);
         }
     }
+    const auto end = std::chrono::high_resolution_clock::now();
 
     std::cout << std::endl;
     delete[] visited;
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 }
 
-void prep_on_own_queue(const Graph &graph, int vertex) {
+long long prep_on_own_queue(const Graph &graph, int vertex) {
     const int n = graph.n;
     const auto visited = new bool[graph.n]{false};
 
+    const auto start = std::chrono::high_resolution_clock::now();
     if (vertex >= 0 && vertex < n && !visited[vertex]) {
         BFS_on_own_queue(vertex, graph, visited);
     }
@@ -208,16 +213,19 @@ void prep_on_own_queue(const Graph &graph, int vertex) {
             BFS_on_own_queue(v, graph, visited);
         }
     }
+    const auto end = std::chrono::high_resolution_clock::now();
 
     std::cout << std::endl;
     delete[] visited;
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 }
 
 
-void prep_list(const Graph &graph, int vertex) {
+long long prep_list(const Graph &graph, int vertex) {
     const int n = graph.n;
     const auto visited = new bool[n]{false};
 
+    const auto start = std::chrono::high_resolution_clock::now();
     if (vertex >= 0 && vertex < n && !visited[vertex]) {
         BFS_list(vertex, graph, visited);
     }
@@ -227,7 +235,9 @@ void prep_list(const Graph &graph, int vertex) {
             BFS_list(v, graph, visited);
         }
     }
+    const auto end = std::chrono::high_resolution_clock::now();
 
     std::cout << std::endl;
     delete[] visited;
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 }

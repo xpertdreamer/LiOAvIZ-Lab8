@@ -44,7 +44,7 @@ extern void print_list(const std::vector<std::vector<int>> &list, const char *na
 extern void BFS(int v, const Graph& graph, bool* visited);
 
 // Preparation algorithm for BFS
-extern void prep(const Graph& graph, int vertex);
+extern long long prep(const Graph& graph, int vertex);
 
 /**
  * Breadth first search algorithm for adjacency list
@@ -55,11 +55,11 @@ extern void prep(const Graph& graph, int vertex);
 extern void BFS_list(int v, const Graph& graph, bool* visited);
 
 // Preparation algorithm for BFS (list representation)
-extern void prep_list(const Graph& graph, int vertex);
+extern long long prep_list(const Graph& graph, int vertex);
 
 // BFS algorithm build on my own queue implementation from Laboratory work #3
 extern void BFS_on_own_queue(int v, const Graph& graph, bool* visited);
 
-// Preparation algorithm for BFS on my own queue implpementation
-extern void prep_on_own_queue(const Graph& graph, int vertex);
+// Preparation algorithm for BFS on my own queue implementation
+extern long long prep_on_own_queue(const Graph& graph, int vertex);
 #endif //GRAPH_GEN_H
